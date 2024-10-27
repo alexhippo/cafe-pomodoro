@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import Timer, { timerType } from './components/Timer'
+import RoundsDisplay from './components/RoundsDisplay';
 
 // global time variables
 const TIME_POMODORO = 25 * 60;
@@ -10,6 +11,7 @@ function App() {
   const [timerType, setTimerType] = useState<timerType>('pomodoro');
   const [time, setTime] = useState<number>(TIME_POMODORO);
   const [isPaused, setIsPaused] = useState<boolean>(true);
+  const [numberOfRounds, setNumberOfRounds] = useState<number>(0);
 
   const resetTimer = () => {
     if (timerType === 'pomodoro') {
@@ -31,7 +33,14 @@ function App() {
         if (time <= 0) {
           clearInterval(timer);
           setIsPaused(true);
-          setTimerType(timerType === 'pomodoro' ? 'break' : 'pomodoro');
+
+          if (timerType === 'pomodoro') {
+            setTimerType('break');
+            setNumberOfRounds(numberOfRounds + 1);
+          } else {
+            setTimerType('pomodoro');
+          }
+
           return 0;
         } else {
           setTime(time - 1);
@@ -60,6 +69,7 @@ function App() {
   const handleResetClick = () => {
     resetTimer();
     setIsPaused(true);
+    setNumberOfRounds(0);
   }
 
   return (
@@ -82,6 +92,7 @@ function App() {
       }}>
         reset
       </button>
+      <RoundsDisplay rounds={numberOfRounds} />
     </>
   )
 }

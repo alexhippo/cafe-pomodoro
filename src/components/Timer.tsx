@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 
 export type timerType = 'pomodoro' | 'break';
 
@@ -9,43 +9,6 @@ type TimerProps = {
 
 const Timer: React.FunctionComponent<TimerProps> = (props: TimerProps) => {
   const { type, time } = props;
-
-  const [isActive, setIsActive] = useState<boolean>(false);
-
-  // const resetTimer = () => {
-  //   if (type === 'pomodoro') {
-  //     setTime(25 * 60);
-  //   } else {
-  //     setTime(5 * 60);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (!isActive) {
-  //     resetTimer();
-  //   }
-  // }, [type]);
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     if (!isPaused) {
-  //       if (time === 0) {
-  //         setIsActive(false);
-  //         clearInterval(timer);
-  //         // pass type back to the parent
-  //         return 0;
-  //       } else {
-  //         setTime((time) => {
-  //           return time - 1;
-  //         });
-  //       }
-  //     }
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(timer);
-  //   }
-  // }, [isPaused]);
 
   return (
     <>
