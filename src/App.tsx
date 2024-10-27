@@ -24,7 +24,6 @@ function App() {
     resetTimer();
   }, [timerType]);
 
-
   // timer logic
   useEffect(() => {
     const timer = setInterval(() => {
