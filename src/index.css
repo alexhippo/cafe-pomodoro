@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -36,6 +36,12 @@ h1 {
   line-height: 1.1;
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -55,4 +61,20 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.timer {
+  font-size: 9rem;
+  padding: 0;
+  line-height: normal;
+}
+
+.type {
+  font-size: 2rem;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.rounds {
+  font-size: 1.5rem;
 }

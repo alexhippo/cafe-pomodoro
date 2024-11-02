@@ -74,24 +74,28 @@ function App() {
 
   return (
     <>
-      <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
-      <button onClick={() => { handleTypeClick('break'); }}>break</button>
+      <div className="controls">
+        <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
+        <button onClick={() => { handleTypeClick('break'); }}>break</button>
+      </div>
       <Timer type={timerType} time={time} />
-      <button onClick={() => {
-        handleStartClick();
-      }}>
-        start
-      </button>
-      <button onClick={() => {
-        handlePauseClick();
-      }}>
-        pause
-      </button>
-      <button onClick={() => {
-        handleResetClick();
-      }}>
-        reset
-      </button>
+      <div className="controls">
+        <button onClick={() => {
+          handleStartClick();
+        }}>
+          start
+        </button>
+        <button onClick={() => {
+          handlePauseClick();
+        }}>
+          pause
+        </button>
+        <button onClick={() => {
+          handleResetClick();
+        }}>
+          reset
+        </button>
+      </div>
       <RoundsDisplay rounds={numberOfRounds} />
     </>
   )
