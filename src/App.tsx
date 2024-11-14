@@ -1,17 +1,21 @@
-import { useEffect, useState } from 'react'
+import React, { RefObject, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Timer, { timerType } from './components/Timer'
 import RoundsDisplay from './components/RoundsDisplay';
+import AudioPlayer from './components/AudioPlayer';
 
 // global time variables
 const TIME_POMODORO = 25 * 60;
 const TIME_BREAK = 5 * 60;
+
+export type AudioStatus = "playAudio" | "pauseAudio" | undefined;
 
 function App() {
   const [timerType, setTimerType] = useState<timerType>('pomodoro');
   const [time, setTime] = useState<number>(TIME_POMODORO);
   const [isPaused, setIsPaused] = useState<boolean>(true);
   const [numberOfRounds, setNumberOfRounds] = useState<number>(0);
+  const [audioStatus, setAudioStatus] = useState<AudioStatus>(undefined);
 
   const resetTimer = () => {
     if (timerType === 'pomodoro') {
@@ -72,33 +76,46 @@ function App() {
     setNumberOfRounds(0);
   }
 
+  const handleAudioClick = () => {
+    if (audioStatus === 'playAudio') {
+      setAudioStatus('pauseAudio');
+    } else {
+      setAudioStatus('playAudio');
+    }
+  }
+
   return (
     <>
-      <div className="controls">
-        <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
-        <button onClick={() => { handleTypeClick('break'); }}>break</button>
+      <div className="topControls">
+        <AudioPlayer status={audioStatus} handleAudioClick={handleAudioClick} />
+        <RoundsDisplay rounds={numberOfRounds} />
       </div>
-      <Timer type={timerType} time={time} />
-      <div className="controls">
-        <button onClick={() => {
-          handleStartClick();
-        }}>
-          start
-        </button>
-        <button onClick={() => {
-          handlePauseClick();
-        }}>
-          pause
-        </button>
-        <button onClick={() => {
-          handleResetClick();
-        }}>
-          reset
-        </button>
+      <div id="#main">
+        <div className="controls">
+          <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
+          <button onClick={() => { handleTypeClick('break'); }}>break</button>
+        </div>
+        <Timer type={timerType} time={time} />
+        <div className="controls">
+          <button onClick={() => {
+            handleStartClick();
+          }}>
+            start
+          </button>
+          <button onClick={() => {
+            handlePauseClick();
+          }}>
+            pause
+          </button>
+          <button onClick={() => {
+            handleResetClick();
+          }}>
+            reset
+          </button>
+        </div>
       </div>
-      <RoundsDisplay rounds={numberOfRounds} />
     </>
   )
 }
 
-export default App
+export default App;

@@ -13,5 +13,6 @@ This is v2 of the [Pomodoro app I originally built to learn Javascript many moon
 - TypeScript 5
 
 ## Resources
-- Background image of cafe by [Elijah Hiett](https://unsplash.com/@elijahdhiett?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/man-sitting-on-front-of-table-tI57rGJCP0A?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)  
+- Background image of cafe by [Elijah Hiett](https://unsplash.com/@elijahdhiett?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/man-sitting-on-front-of-table-tI57rGJCP0A?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+- Cafe Ambience Sounds by [Anti-Node Design](https://www.soundsnap.com/user-name/anti_node_design)
 - [What is the Pomodoro technique?](https://en.wikipedia.org/wiki/Pomodoro_Technique)

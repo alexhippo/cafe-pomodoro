@@ -31,9 +31,20 @@ body {
   min-height: 100vh;
 }
 
+#main {
+  padding-top: 4rem;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.topControls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .controls {
@@ -63,6 +74,26 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.audioButton {
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 0;
+}
+
+.audioButtonContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.audioButton svg {
+  width: 2rem;
+  height: 2rem;
+}
+
 .timer {
   font-size: 9rem;
   padding: 0;
@@ -76,5 +107,5 @@ button:focus-visible {
 }
 
 .rounds {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
