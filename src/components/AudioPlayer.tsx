@@ -14,9 +14,6 @@ const AudioPlayer: React.FunctionComponent<AudioPlayerProps> = (props: AudioPlay
   const cafeBackgroundAudio = new Audio('/cafe-ambience.wav');
   const cafeBackgroundAudioRef = useRef(cafeBackgroundAudio);
 
-  const achievementBellAudio = new Audio('/mixkit-achievement-bell-600.wav');
-  const achievementBellAudioRef = useRef(achievementBellAudio);
-
   const playAudio = (ref: React.MutableRefObject<HTMLAudioElement>) => {
     ref.current.play();
     ref.current.loop = true;

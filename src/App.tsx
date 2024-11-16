@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Timer, { timerType } from './components/Timer'
 import RoundsDisplay from './components/RoundsDisplay';
@@ -16,6 +16,10 @@ function App() {
   const [isPaused, setIsPaused] = useState<boolean>(true);
   const [numberOfRounds, setNumberOfRounds] = useState<number>(0);
   const [audioStatus, setAudioStatus] = useState<AudioStatus>(undefined);
+  const [bellStatus, setBellStatus] = useState<boolean>(false);
+
+  const achievementBellAudio = new Audio('/mixkit-achievement-bell-600.wav');
+  const achievementBellAudioRef = useRef(achievementBellAudio);
 
   const resetTimer = () => {
     if (timerType === 'pomodoro') {
@@ -28,7 +32,14 @@ function App() {
 
   useEffect(() => {
     resetTimer();
+    setBellStatus(false);
   }, [timerType]);
+
+  useEffect(() => {
+    if (bellStatus) {
+      achievementBellAudioRef.current.play();
+    }
+  }, [bellStatus])
 
   // timer logic
   useEffect(() => {
@@ -37,6 +48,8 @@ function App() {
         if (time <= 0) {
           clearInterval(timer);
           setIsPaused(true);
+          setBellStatus(true);
+          setAudioStatus('pauseAudio');
 
           if (timerType === 'pomodoro') {
             setTimerType('break');
@@ -90,7 +103,7 @@ function App() {
         <AudioPlayer status={audioStatus} handleAudioClick={handleAudioClick} />
         <RoundsDisplay rounds={numberOfRounds} />
       </div>
-      <div id="#main">
+      <main>
         <div className="controls">
           <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
           <button onClick={() => { handleTypeClick('break'); }}>break</button>
@@ -113,7 +126,7 @@ function App() {
             reset
           </button>
         </div>
-      </div>
+      </main>
     </>
   )
 }
