@@ -98,11 +98,17 @@ function App() {
   }
 
   return (
-    <>
+    <div className="appGrid">
       <div className="topControls">
         <AudioPlayer status={audioStatus} handleAudioClick={handleAudioClick} />
+      </div>
+      <div>
+        &nbsp;
+      </div>
+      <div className="topRightControls">
         <RoundsDisplay rounds={numberOfRounds} />
       </div>
+      <div>&nbsp;</div>
       <main>
         <div className="controls">
           <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
@@ -127,7 +133,11 @@ function App() {
           </button>
         </div>
       </main>
-    </>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
+      <footer>made with <span role="img" aria-label="sparkling heart">💖 </span> and <span role="img" aria-label="coffee">☕</span> by <a href="https://alexhippo.dev">alexhippo</a></footer>
+      <div>&nbsp;</div>
+    </div>
   )
 }
 
