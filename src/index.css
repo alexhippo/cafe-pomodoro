@@ -126,3 +126,34 @@ button:focus-visible {
 .rounds {
   font-size: 1rem;
 }
+
+@media screen and (max-width: 850px) {
+  .type {
+    font-size: 1.5rem;
+  }
+
+  .timer {
+    font-size: 6rem;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .appGrid {
+    row-gap: 10rem;
+  }
+
+
+  .type {
+    font-size: 1rem;
+  }
+
+  .timer {
+    font-size: 3rem;
+    width: 200px;
+    padding-bottom: 1rem;
+  }
+
+  footer p {
+    font-size: 0.75rem;
+  }
+}

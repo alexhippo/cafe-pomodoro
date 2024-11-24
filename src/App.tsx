@@ -135,7 +135,7 @@ function App() {
       </main>
       <div>&nbsp;</div>
       <div>&nbsp;</div>
-      <footer>made with <span role="img" aria-label="sparkling heart">💖 </span> and <span role="img" aria-label="coffee">☕</span> by <a href="https://alexhippo.dev">alexhippo</a></footer>
+      <footer><p>made with <span role="img" aria-label="sparkling heart">💖 </span> and <span role="img" aria-label="coffee">☕</span> by <a href="https://alexhippo.dev">alexhippo</a></p></footer>
       <div>&nbsp;</div>
     </div>
   )
