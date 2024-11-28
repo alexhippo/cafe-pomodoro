@@ -17,9 +17,9 @@ const Timer: React.FunctionComponent<TimerProps> = (props: TimerProps) => {
 
   return (
     <>
-      <p className="type">{typeMap[type]}</p>
+      <p className="type" id="type">{typeMap[type]}</p>
       <div className="timer">
-        <span>{Math.floor(time / 60).toString().padStart(2, '0')} : {Math.floor(time % 60).toString().padStart(2, '0')}</span>
+        <span role="timer" aria-labelledby="type">{Math.floor(time / 60).toString().padStart(2, '0')} : {Math.floor(time % 60).toString().padStart(2, '0')}</span>
       </div>
     </>
   )

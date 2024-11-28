@@ -7,7 +7,7 @@ type RoundsDisplayProps = {
 const RoundsDisplay: React.FunctionComponent<RoundsDisplayProps> = (props: RoundsDisplayProps) => {
   const { rounds } = props;
   return (
-    <p className="rounds">pomodoros completed: {rounds}</p>
+    <p className="rounds" role="status">pomodoros completed: {rounds}</p>
   )
 }
 

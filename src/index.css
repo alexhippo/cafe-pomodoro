@@ -117,6 +117,15 @@ button:focus-visible {
   line-height: normal;
 }
 
+.screenReaderOnlyTimer {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .type {
   font-size: 2rem;
   padding-bottom: 0;

@@ -17,6 +17,8 @@ function App() {
   const [numberOfRounds, setNumberOfRounds] = useState<number>(0);
   const [audioStatus, setAudioStatus] = useState<AudioStatus>(undefined);
   const [bellStatus, setBellStatus] = useState<boolean>(false);
+  const [screenReaderOnlyTimer, setScreenReaderOnlyTimer] = useState<number>(TIME_POMODORO / 60);
+  const [screenReaderOnlyMessage, setScreenReaderOnlyMessage] = useState<string>(`${screenReaderOnlyTimer} minutes left in ${timerType}`);
 
   const achievementBellAudio = new Audio('/mixkit-achievement-bell-600.wav');
   const achievementBellAudioRef = useRef(achievementBellAudio);
@@ -50,6 +52,8 @@ function App() {
           setIsPaused(true);
           setBellStatus(true);
           setAudioStatus('pauseAudio');
+          setScreenReaderOnlyMessage(`${timerType} complete`);
+          setScreenReaderOnlyTimer(TIME_POMODORO / 60);
 
           if (timerType === 'pomodoro') {
             setTimerType('break');
@@ -61,6 +65,11 @@ function App() {
           return 0;
         } else {
           setTime(time - 1);
+          setTimeout(() => {
+            if (screenReaderOnlyTimer > 0) {
+              setScreenReaderOnlyTimer(screenReaderOnlyTimer - 1);
+            }
+          }, 60000);
         }
       }
     }, 1000);
@@ -77,16 +86,19 @@ function App() {
 
   const handleStartClick = () => {
     setIsPaused(false);
+    setScreenReaderOnlyMessage(`${screenReaderOnlyTimer} minutes left in ${timerType}`);
   }
 
   const handlePauseClick = () => {
     setIsPaused(true);
+    setScreenReaderOnlyMessage('timer paused');
   }
 
   const handleResetClick = () => {
     resetTimer();
     setIsPaused(true);
     setNumberOfRounds(0);
+    setScreenReaderOnlyMessage(`${screenReaderOnlyTimer} minutes left in ${timerType}`);
   }
 
   const handleAudioClick = () => {
@@ -115,6 +127,9 @@ function App() {
           <button onClick={() => { handleTypeClick('break'); }}>break</button>
         </div>
         <Timer type={timerType} time={time} />
+        <div>
+          <span role="status">{screenReaderOnlyMessage}</span>
+        </div>
         <div className="controls">
           <button onClick={() => {
             handleStartClick();
