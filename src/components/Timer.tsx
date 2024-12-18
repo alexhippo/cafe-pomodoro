@@ -1,9 +1,9 @@
 import React from "react";
 
-export type timerType = 'pomodoro' | 'break';
+export type TimerType = 'pomodoro' | 'break';
 
 type TimerProps = {
-  type: timerType,
+  type: TimerType,
   time: number,
 }
 
@@ -17,7 +17,7 @@ const Timer: React.FunctionComponent<TimerProps> = (props: TimerProps) => {
 
   return (
     <>
-      <p className="type" id="type">{typeMap[type]}</p>
+      <p className="type" id="type" role="status">{typeMap[type]}</p>
       <div className="timer">
         <span role="timer" aria-labelledby="type">{Math.floor(time / 60).toString().padStart(2, '0')} : {Math.floor(time % 60).toString().padStart(2, '0')}</span>
       </div>

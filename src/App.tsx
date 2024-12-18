@@ -1,47 +1,52 @@
-import { useEffect, useRef, useState } from 'react'
-import './App.css'
-import Timer, { timerType } from './components/Timer'
-import RoundsDisplay from './components/RoundsDisplay';
-import AudioPlayer from './components/AudioPlayer';
+import { useCallback, useEffect, useRef, useState } from "react";
+import "./App.css";
+import Timer, { TimerType } from "./components/Timer";
+import RoundsDisplay from "./components/RoundsDisplay";
+import AudioPlayer from "./components/AudioPlayer";
 
 // global time variables
-const TIME_POMODORO = 25 * 60;
-const TIME_BREAK = 5 * 60;
+const TIME_POMODORO_MINUTES = 1;
+const TIME_POMODORO = TIME_POMODORO_MINUTES * 60;
+const TIME_BREAK_MINUTES = 5;
+const TIME_BREAK = TIME_BREAK_MINUTES * 60;
 
 export type AudioStatus = "playAudio" | "pauseAudio" | undefined;
 
 function App() {
-  const [timerType, setTimerType] = useState<timerType>('pomodoro');
+  const [timerType, setTimerType] = useState<TimerType>("pomodoro");
   const [time, setTime] = useState<number>(TIME_POMODORO);
   const [isPaused, setIsPaused] = useState<boolean>(true);
   const [numberOfRounds, setNumberOfRounds] = useState<number>(0);
   const [audioStatus, setAudioStatus] = useState<AudioStatus>(undefined);
   const [bellStatus, setBellStatus] = useState<boolean>(false);
-  const [screenReaderOnlyTimer, setScreenReaderOnlyTimer] = useState<number>(TIME_POMODORO / 60);
-  const [screenReaderOnlyMessage, setScreenReaderOnlyMessage] = useState<string>(`${screenReaderOnlyTimer} minutes left in ${timerType}`);
+  const [statusMessage, setStatusMessage] = useState<string>(
+    `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
+  );
 
-  const achievementBellAudio = new Audio('/mixkit-achievement-bell-600.wav');
+  const achievementBellAudio = new Audio("/mixkit-achievement-bell-600.wav");
   const achievementBellAudioRef = useRef(achievementBellAudio);
 
-  const resetTimer = () => {
-    if (timerType === 'pomodoro') {
+  const resetTimer = useCallback(() => {
+    if (timerType === "pomodoro") {
       setTime(TIME_POMODORO);
     } else {
       setTime(TIME_BREAK);
     }
-    setIsPaused(true);
-  }
+    setStatusMessage(
+      `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
+    );
+  }, [timerType]);
 
   useEffect(() => {
     resetTimer();
     setBellStatus(false);
-  }, [timerType]);
+  }, [resetTimer, timerType]);
 
   useEffect(() => {
     if (bellStatus) {
       achievementBellAudioRef.current.play();
     }
-  }, [bellStatus])
+  }, [bellStatus]);
 
   // timer logic
   useEffect(() => {
@@ -51,109 +56,137 @@ function App() {
           clearInterval(timer);
           setIsPaused(true);
           setBellStatus(true);
-          setAudioStatus('pauseAudio');
-          setScreenReaderOnlyMessage(`${timerType} complete`);
-          setScreenReaderOnlyTimer(TIME_POMODORO / 60);
+          setAudioStatus("pauseAudio");
 
-          if (timerType === 'pomodoro') {
-            setTimerType('break');
+          if (timerType === "pomodoro") {
+            setTimerType("break");
             setNumberOfRounds(numberOfRounds + 1);
           } else {
-            setTimerType('pomodoro');
+            setTimerType("pomodoro");
           }
+          setStatusMessage(
+            `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
+          );
 
           return 0;
         } else {
           setTime(time - 1);
-          setTimeout(() => {
-            if (screenReaderOnlyTimer > 0) {
-              setScreenReaderOnlyTimer(screenReaderOnlyTimer - 1);
-            }
-          }, 60000);
+          if (time % 60 === 0) {
+            setStatusMessage(
+              `${Math.floor(time / 60)} minutes left in ${timerType}`,
+            );
+          }
         }
       }
     }, 1000);
 
     return () => {
       clearInterval(timer);
-    }
-  }, [isPaused, timerType, time]);
+    };
+  }, [isPaused, timerType, time, numberOfRounds]);
 
-  const handleTypeClick = (selectedTimerType: timerType) => {
+  const handleTypeClick = (selectedTimerType: TimerType) => {
     setTimerType(selectedTimerType);
-    selectedTimerType === 'pomodoro' ? setTime(TIME_POMODORO) : setTime(TIME_BREAK);
-  }
+    selectedTimerType === "pomodoro"
+      ? setTime(TIME_POMODORO)
+      : setTime(TIME_BREAK);
+  };
 
   const handleStartClick = () => {
     setIsPaused(false);
-    setScreenReaderOnlyMessage(`${screenReaderOnlyTimer} minutes left in ${timerType}`);
-  }
+  };
 
   const handlePauseClick = () => {
     setIsPaused(true);
-    setScreenReaderOnlyMessage('timer paused');
-  }
+  };
 
   const handleResetClick = () => {
     resetTimer();
     setIsPaused(true);
     setNumberOfRounds(0);
-    setScreenReaderOnlyMessage(`${screenReaderOnlyTimer} minutes left in ${timerType}`);
-  }
+  };
 
   const handleAudioClick = () => {
-    if (audioStatus === 'playAudio') {
-      setAudioStatus('pauseAudio');
+    if (audioStatus === "playAudio") {
+      setAudioStatus("pauseAudio");
     } else {
-      setAudioStatus('playAudio');
+      setAudioStatus("playAudio");
     }
-  }
+  };
 
   return (
     <div className="appGrid">
       <div className="topControls">
         <AudioPlayer status={audioStatus} handleAudioClick={handleAudioClick} />
       </div>
-      <div>
-        &nbsp;
-      </div>
+      <div>&nbsp;</div>
       <div className="topRightControls">
         <RoundsDisplay rounds={numberOfRounds} />
       </div>
       <div>&nbsp;</div>
       <main>
         <div className="controls">
-          <button onClick={() => { handleTypeClick('pomodoro'); }}>pomodoro</button>
-          <button onClick={() => { handleTypeClick('break'); }}>break</button>
+          <button
+            onClick={() => {
+              handleTypeClick("pomodoro");
+            }}
+          >
+            pomodoro
+          </button>
+          <button
+            onClick={() => {
+              handleTypeClick("break");
+            }}
+          >
+            break
+          </button>
         </div>
         <Timer type={timerType} time={time} />
-        <div>
-          <span role="status">{screenReaderOnlyMessage}</span>
-        </div>
+        <span role="status">
+          {statusMessage}
+        </span>
         <div className="controls">
-          <button onClick={() => {
-            handleStartClick();
-          }}>
+          <button
+            onClick={() => {
+              handleStartClick();
+            }}
+          >
             start
           </button>
-          <button onClick={() => {
-            handlePauseClick();
-          }}>
+          <button
+            onClick={() => {
+              handlePauseClick();
+            }}
+          >
             pause
           </button>
-          <button onClick={() => {
-            handleResetClick();
-          }}>
+          <button
+            onClick={() => {
+              handleResetClick();
+            }}
+          >
             reset
           </button>
         </div>
       </main>
       <div>&nbsp;</div>
       <div>&nbsp;</div>
-      <footer><p>made with <span role="img" aria-label="sparkling heart">💖 </span> and <span role="img" aria-label="coffee">☕</span> by <a href="https://alexhippo.dev">alexhippo</a></p></footer>
+      <footer>
+        <p>
+          made with{" "}
+          <span role="img" aria-label="love">
+            💖{" "}
+          </span>{" "}
+          and{" "}
+          <span role="img" aria-label="coffee">
+            ☕
+          </span>{" "}
+          by <a href="https://alexhippo.dev">alexhippo</a>
+        </p>
+      </footer>
       <div>&nbsp;</div>
     </div>
-  )
+  );
 }
 
 export default App;
