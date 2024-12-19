@@ -93,6 +93,7 @@ function App() {
 
     if (selectedTimerType === "pomodoro") {
       setTime(TIME_POMODORO);
+      setIsPaused(true);
       if (pomodoroButtonRef.current) {
         pomodoroButtonRef.current.setAttribute("aria-pressed", "true");
         pomodoroButtonRef.current.classList.add("typeButtonSelected");
@@ -103,6 +104,7 @@ function App() {
       }
     } else {
       setTime(TIME_BREAK);
+      setIsPaused(true);
       if (pomodoroButtonRef.current) {
         pomodoroButtonRef.current.setAttribute("aria-pressed", "false");
         pomodoroButtonRef.current.classList.remove("typeButtonSelected");
@@ -152,6 +154,7 @@ function App() {
             onClick={() => {
               handleTypeClick("pomodoro");
             }}
+            className="typeButtonSelected"
             ref={pomodoroButtonRef}
           >
             pomodoro
