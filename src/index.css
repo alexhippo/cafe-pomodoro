@@ -91,6 +91,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.typeButtonSelected {
+  background-color: #6f4e37;
+  color: white;
+}
+
 .audioButton {
   background-color: transparent;
   border: none;
@@ -150,7 +155,6 @@ button:focus-visible {
   .appGrid {
     row-gap: 10rem;
   }
-
 
   .type {
     font-size: 1rem;

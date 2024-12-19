@@ -23,6 +23,9 @@ function App() {
     `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
   );
 
+  const pomodoroButtonRef = useRef<HTMLButtonElement>(null);
+  const breakButtonRef = useRef<HTMLButtonElement>(null);
+
   const achievementBellAudio = new Audio("/mixkit-achievement-bell-600.wav");
   const achievementBellAudioRef = useRef(achievementBellAudio);
 
@@ -87,9 +90,28 @@ function App() {
 
   const handleTypeClick = (selectedTimerType: TimerType) => {
     setTimerType(selectedTimerType);
-    selectedTimerType === "pomodoro"
-      ? setTime(TIME_POMODORO)
-      : setTime(TIME_BREAK);
+
+    if (selectedTimerType === "pomodoro") {
+      setTime(TIME_POMODORO);
+      if (pomodoroButtonRef.current) {
+        pomodoroButtonRef.current.setAttribute("aria-pressed", "true");
+        pomodoroButtonRef.current.classList.add("typeButtonSelected");
+      }
+      if (breakButtonRef.current) {
+        breakButtonRef.current.setAttribute("aria-pressed", "false");
+        breakButtonRef.current.classList.remove("typeButtonSelected");
+      }
+    } else {
+      setTime(TIME_BREAK);
+      if (pomodoroButtonRef.current) {
+        pomodoroButtonRef.current.setAttribute("aria-pressed", "false");
+        pomodoroButtonRef.current.classList.remove("typeButtonSelected");
+      }
+      if (breakButtonRef.current) {
+        breakButtonRef.current.setAttribute("aria-pressed", "true");
+        breakButtonRef.current.classList.add("typeButtonSelected");
+      }
+    }
   };
 
   const handleStartClick = () => {
@@ -130,6 +152,7 @@ function App() {
             onClick={() => {
               handleTypeClick("pomodoro");
             }}
+            ref={pomodoroButtonRef}
           >
             pomodoro
           </button>
@@ -137,6 +160,7 @@ function App() {
             onClick={() => {
               handleTypeClick("break");
             }}
+            ref={breakButtonRef}
           >
             break
           </button>
