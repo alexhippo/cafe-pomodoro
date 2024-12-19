@@ -5,7 +5,7 @@ import RoundsDisplay from "./components/RoundsDisplay";
 import AudioPlayer from "./components/AudioPlayer";
 
 // global time variables
-const TIME_POMODORO_MINUTES = 1;
+const TIME_POMODORO_MINUTES = 25;
 const TIME_POMODORO = TIME_POMODORO_MINUTES * 60;
 const TIME_BREAK_MINUTES = 5;
 const TIME_BREAK = TIME_BREAK_MINUTES * 60;
@@ -142,7 +142,7 @@ function App() {
           </button>
         </div>
         <Timer type={timerType} time={time} />
-        <span role="status">
+        <span role="status" className="screenReaderOnlyTimer">
           {statusMessage}
         </span>
         <div className="controls">
