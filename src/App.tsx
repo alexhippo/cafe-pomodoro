@@ -14,12 +14,12 @@ export type AudioStatus = "playAudio" | "pauseAudio" | undefined;
 
 function App() {
   const [timerType, setTimerType] = useState<TimerType>("pomodoro");
-  const [time, setTime] = useState<number>(TIME_POMODORO);
-  const [isPaused, setIsPaused] = useState<boolean>(true);
-  const [numberOfRounds, setNumberOfRounds] = useState<number>(0);
+  const [time, setTime] = useState(TIME_POMODORO);
+  const [isPaused, setIsPaused] = useState(true);
+  const [numberOfRounds, setNumberOfRounds] = useState(0);
   const [audioStatus, setAudioStatus] = useState<AudioStatus>(undefined);
-  const [bellStatus, setBellStatus] = useState<boolean>(false);
-  const [statusMessage, setStatusMessage] = useState<string>(
+  const [bellStatus, setBellStatus] = useState(false);
+  const [statusMessage, setStatusMessage] = useState(
     `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
   );
 
@@ -148,17 +148,10 @@ function App() {
         <div className="controls">
           <button
             onClick={() => {
-              handleStartClick();
+              isPaused ? handleStartClick() : handlePauseClick();
             }}
           >
-            start
-          </button>
-          <button
-            onClick={() => {
-              handlePauseClick();
-            }}
-          >
-            pause
+            {isPaused ? "play" : "pause"}
           </button>
           <button
             onClick={() => {
