@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-          
+
       - name: Install dependencies
         run: pnpm install
       - name: Build
@@ -54,6 +54,11 @@ jobs:
         with:
           # Upload dist folder
           path: './dist'
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload public folder
+          path: './public'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
