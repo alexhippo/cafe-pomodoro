@@ -4,6 +4,8 @@ import Timer, { TimerType } from "./components/Timer";
 import RoundsDisplay from "./components/RoundsDisplay";
 import AudioPlayer from "./components/AudioPlayer";
 
+const { BASE_URL } = import.meta.env;
+
 // global time variables
 const TIME_POMODORO_MINUTES = 25;
 const TIME_POMODORO = TIME_POMODORO_MINUTES * 60;
@@ -26,7 +28,9 @@ function App() {
   const pomodoroButtonRef = useRef<HTMLButtonElement>(null);
   const breakButtonRef = useRef<HTMLButtonElement>(null);
 
-  const achievementBellAudio = new Audio("/mixkit-achievement-bell-600.wav");
+  const achievementBellAudio = new Audio(
+    `${BASE_URL}/mixkit-achievement-bell-600.wav`,
+  );
   const achievementBellAudioRef = useRef(achievementBellAudio);
 
   const resetTimer = useCallback(() => {
