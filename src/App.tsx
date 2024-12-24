@@ -175,7 +175,7 @@ function App() {
             break
           </button>
         </div>
-        <Timer type={timerType} time={time} />
+        <Timer type={timerType} time={time} isPaused={isPaused} />
         <span role="status" className="screenReaderOnlyTimer">
           {statusMessage}
         </span>
