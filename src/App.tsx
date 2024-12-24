@@ -68,8 +68,10 @@ function App() {
           if (timerType === "pomodoro") {
             setTimerType("break");
             setNumberOfRounds(numberOfRounds + 1);
+            toggleType("break");
           } else {
             setTimerType("pomodoro");
+            toggleType("pomodoro");
           }
           setStatusMessage(
             `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
@@ -92,31 +94,32 @@ function App() {
     };
   }, [isPaused, timerType, time, numberOfRounds]);
 
+  const toggleType = (selectedTimerType: TimerType) => {
+    if (pomodoroButtonRef.current && breakButtonRef.current) {
+      if (selectedTimerType === "pomodoro") {
+        pomodoroButtonRef.current.classList.add("typeButtonSelected");
+        breakButtonRef.current.setAttribute("aria-pressed", "false");
+        breakButtonRef.current.classList.remove("typeButtonSelected");
+      } else {
+        pomodoroButtonRef.current.setAttribute("aria-pressed", "false");
+        pomodoroButtonRef.current.classList.remove("typeButtonSelected");
+        breakButtonRef.current.setAttribute("aria-pressed", "true");
+        breakButtonRef.current.classList.add("typeButtonSelected");
+      }
+    }
+  };
+
   const handleTypeClick = (selectedTimerType: TimerType) => {
     setTimerType(selectedTimerType);
 
     if (selectedTimerType === "pomodoro") {
       setTime(TIME_POMODORO);
       setIsPaused(true);
-      if (pomodoroButtonRef.current) {
-        pomodoroButtonRef.current.setAttribute("aria-pressed", "true");
-        pomodoroButtonRef.current.classList.add("typeButtonSelected");
-      }
-      if (breakButtonRef.current) {
-        breakButtonRef.current.setAttribute("aria-pressed", "false");
-        breakButtonRef.current.classList.remove("typeButtonSelected");
-      }
+      toggleType("pomodoro");
     } else {
       setTime(TIME_BREAK);
       setIsPaused(true);
-      if (pomodoroButtonRef.current) {
-        pomodoroButtonRef.current.setAttribute("aria-pressed", "false");
-        pomodoroButtonRef.current.classList.remove("typeButtonSelected");
-      }
-      if (breakButtonRef.current) {
-        breakButtonRef.current.setAttribute("aria-pressed", "true");
-        breakButtonRef.current.classList.add("typeButtonSelected");
-      }
+      toggleType("break");
     }
   };
 
