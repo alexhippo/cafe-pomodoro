@@ -92,7 +92,7 @@ function App() {
     return () => {
       clearInterval(timer);
     };
-  }, [isPaused, timerType, time, numberOfRounds]);
+  }, [isPaused, numberOfRounds, time, timerType]);
 
   const toggleType = (selectedTimerType: TimerType) => {
     if (pomodoroButtonRef.current && breakButtonRef.current) {

@@ -80,6 +80,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   background-color: #f9f9f9;
+  color: #000000;
 }
 
 button:hover {
@@ -148,22 +149,35 @@ button:focus-visible {
 
   .timer {
     font-size: 6rem;
+    width: 400px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .appGrid {
-    row-gap: 10rem;
+    row-gap: 1rem;
   }
 
   .type {
-    font-size: 1rem;
+    font-size: 2rem;
+    width: 300px;
   }
 
   .timer {
-    font-size: 3rem;
-    width: 200px;
+    font-size: 5rem;
+    width: 300px;
     padding-bottom: 1rem;
+  }
+
+  .controls {
+    gap: 10px;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .controls button {
+    font-size: 1.5rem;
+    gap: 2rem;
   }
 
   footer p {
