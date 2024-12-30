@@ -153,14 +153,18 @@ function App() {
 
   return (
     <div className="appGrid">
-      <div className="topControls">
-        <AudioPlayer status={audioStatus} handleAudioClick={handleAudioClick} />
+      <div className="appGridTopControls">
+        {" "}
+        <div className="topLeftControls">
+          <AudioPlayer
+            status={audioStatus}
+            handleAudioClick={handleAudioClick}
+          />
+        </div>
+        <div className="topRightControls">
+          <RoundsDisplay rounds={numberOfRounds} />
+        </div>
       </div>
-      <div>&nbsp;</div>
-      <div className="topRightControls">
-        <RoundsDisplay rounds={numberOfRounds} />
-      </div>
-      <div>&nbsp;</div>
       <main>
         <div className="controls">
           <button
@@ -202,8 +206,6 @@ function App() {
           </button>
         </div>
       </main>
-      <div>&nbsp;</div>
-      <div>&nbsp;</div>
       <footer>
         <p>
           made with{" "}
@@ -217,7 +219,6 @@ function App() {
           by <a href="https://alexhippo.dev">alexhippo</a>
         </p>
       </footer>
-      <div>&nbsp;</div>
     </div>
   );
 }

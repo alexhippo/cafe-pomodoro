@@ -36,8 +36,7 @@ footer {
 
 .appGrid {
   display: grid;
-  width: 100%;
-  grid-template-columns: repeat(3, minmax(50px, auto));
+  grid-template-rows: auto 1fr auto;
   row-gap: 2rem;
 }
 
@@ -53,7 +52,11 @@ h1 {
   line-height: 1.1;
 }
 
-.topControls {
+.appGridTopControls {
+  display: flex;
+}
+
+.topLeftControls {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -62,6 +65,7 @@ h1 {
 
 .topRightControls {
   text-align: end;
+  width: 100%;
 }
 
 .controls {
