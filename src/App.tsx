@@ -55,46 +55,7 @@ function App() {
     }
   }, [bellStatus]);
 
-  // timer logic
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (!isPaused) {
-        if (time <= 0) {
-          clearInterval(timer);
-          setIsPaused(true);
-          setBellStatus(true);
-          setAudioStatus("pauseAudio");
-
-          if (timerType === "pomodoro") {
-            setTimerType("break");
-            setNumberOfRounds(numberOfRounds + 1);
-            toggleType("break");
-          } else {
-            setTimerType("pomodoro");
-            toggleType("pomodoro");
-          }
-          setStatusMessage(
-            `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
-          );
-
-          return 0;
-        } else {
-          setTime(time - 1);
-          if (time % 60 === 0) {
-            setStatusMessage(
-              `${Math.floor(time / 60)} minutes left in ${timerType}`,
-            );
-          }
-        }
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isPaused, numberOfRounds, time, timerType]);
-
-  const toggleType = (selectedTimerType: TimerType) => {
+  const toggleType = useCallback((selectedTimerType: TimerType) => {
     if (pomodoroButtonRef.current && breakButtonRef.current) {
       if (selectedTimerType === "pomodoro") {
         pomodoroButtonRef.current.classList.add("typeButtonSelected");
@@ -107,21 +68,66 @@ function App() {
         breakButtonRef.current.classList.add("typeButtonSelected");
       }
     }
-  };
+  }, []);
 
-  const handleTypeClick = (selectedTimerType: TimerType) => {
-    setTimerType(selectedTimerType);
+  // timer logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!isPaused) {
+        setTime((prevTime) => {
+          if (prevTime <= 0) {
+            clearInterval(timer);
+            setIsPaused(true);
+            setBellStatus(true);
+            setAudioStatus("pauseAudio");
 
-    if (selectedTimerType === "pomodoro") {
-      setTime(TIME_POMODORO);
-      setIsPaused(true);
-      toggleType("pomodoro");
-    } else {
-      setTime(TIME_BREAK);
-      setIsPaused(true);
-      toggleType("break");
-    }
-  };
+            if (timerType === "pomodoro") {
+              setTimerType("break");
+              setNumberOfRounds((prevRounds) => prevRounds + 1);
+              toggleType("break");
+            } else {
+              setTimerType("pomodoro");
+              toggleType("pomodoro");
+            }
+
+            setStatusMessage(
+              `${timerType === "pomodoro" ? TIME_POMODORO_MINUTES : TIME_BREAK_MINUTES} minutes left in ${timerType}`,
+            );
+
+            return 0;
+          } else {
+            if (prevTime % 60 === 0) {
+              setStatusMessage(
+                `${Math.floor(prevTime / 60)} minutes left in ${timerType}`,
+              );
+            }
+            return prevTime - 1;
+          }
+        });
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isPaused, timerType, toggleType]);
+
+  const handleTypeClick = useCallback(
+    (selectedTimerType: TimerType) => {
+      setTimerType(selectedTimerType);
+
+      if (selectedTimerType === "pomodoro") {
+        setTime(TIME_POMODORO);
+        setIsPaused(true);
+        toggleType("pomodoro");
+      } else {
+        setTime(TIME_BREAK);
+        setIsPaused(true);
+        toggleType("break");
+      }
+    },
+    [toggleType],
+  );
 
   const handleStartClick = () => {
     setIsPaused(false);
